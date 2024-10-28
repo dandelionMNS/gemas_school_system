@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('fee_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('grade_lvl');
             $table->string('name');
-            $table->unsignedBigInteger('teacher_id')->nullable();
-            
-            $table->foreign('teacher_id')->references('id')->on('users')->nullOnDelete();
+            $table->float('amount');
+
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('fee_types');
     }
 };

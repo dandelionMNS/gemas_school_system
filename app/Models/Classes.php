@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Classes extends Model
@@ -15,5 +14,6 @@ class Classes extends Model
         'id',
         'year',
         'name',
+        'teacher_id',
     ];
 }
