@@ -2,19 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    --bg-main: #3C8DBC;
+:root {
+    --bg-main: #3c8dbc;
     --bg-white: #f3f4f6;
 
     --font-size-base: 16px;
     --font-size-h1: 32px;
-    --font-size-h2: 20px; 
-    --font-size-h3: 18px; 
+    --font-size-h2: 20px;
+    --font-size-h3: 18px;
     --font-size-h4: 18px;
-    --font-size-h5: 16px; 
-    --font-size-h6: 12px; 
+    --font-size-h5: 16px;
+    --font-size-h6: 12px;
 }
-
 
 h1 {
     font-size: var(--font-size-h1);
@@ -48,15 +47,36 @@ p {
 }
 
 /* Optional: Adjust line heights and other styles */
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
     line-height: 1.5; /* Example line height */
     margin: 0; /* Reset margins if needed */
 }
 
-.main{
+.main {
     background: var(--bg-white);
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar{
-    min-width: 250px;
+.sidebar {
+    height: calc(100vh - 8.75rem); 
+    width: clamp(250px, 10vw, 350px);
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    
+    h4{
+        padding: 10px 30px;
+        border-bottom: 1px solid #fff9;
+        
+        &:hover{
+            background: #fff3;
+        }
+    }
 }
