@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class=" text-xl text-gray-800 leading-tight">
-            {{-- ANAK SAYA --}}
+            {{-- Senarai Kelas --}}
         </h2>
     </x-slot>
 
     <div class="dashboard mx-auto sm:px--6 h-full">
         <div class="py-12 bg-[var(--bg-white)] p-12 h-full">
             <div class="main text-gray-900 sm:px--6 lg:px--8">
-                <h2 class="text-nowrap pb-5">REKOD PEMBAYARAN YURAN</h2>
+                <h2 class="text-nowrap pb-5">Senarai Kelas</h2>
 
                 <form class="add-form flex flex-col w-min gap-3 p-3" method="POST" action="{{ route('class.create') }}">
                     @csrf
-                    <h3 class="text-nowrap flex items-center">REKOD PEMBAYARAN YURAN</h3>
+                    <h3 class="text-nowrap flex items-center">Tambah Kelas:</h3>
 
                     <div class="flex gap-8">
                         <div class="flex gap-2">
@@ -122,9 +122,6 @@
         </div>
 
     </div>
-
-
-
 
     <style>
         .dashboard {

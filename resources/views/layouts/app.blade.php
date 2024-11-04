@@ -24,30 +24,36 @@
         @isset($header)
             <header class="bg-white shadow">
                 <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
+                 {{-- Put any update or anything status here --}}
                 </div>
             </header>
         @endisset
 
         <!-- Page Content -->
         <main style="height: calc(100vh - 138px)">
-            <div class="flex">
+            <div class="flex max-w-full overflow-x-hidden">
                 {{-- Sidebar --}}
-                <div class="sidebar h-full py-10 px-6 text-white">
-                    <h4>
-                        Halaman Utama
-                    </h4>
-                    <h4>
-                       Senarai Pelajar
-                    </h4>
-                    <h4>
-                        Rekod Bayaran
-                    </h4>
-                </div>
+                <div class="sidebar h-full text-white">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <h4> {{ __('Laman Utama') }} </h4>
+                    </x-nav-link>
 
-                <div>
+                    @if (Auth::check() && Auth::user()->type === 'admin')
+                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                            <h4> {{ __('Senarai Pengguna Berdaftar') }} </h4>
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('class.index')" :active="request()->routeIs('class.index')">
+                            <h4> {{ __('Senarai Kelas') }} </h4>
+                        </x-nav-link>
+                    @endif
+
+                    {{-- <x-nav-link :href="route('student')" :active="request()->routeIs('students')">
+                        <h4> {{ __('Senarai Pelajar') }} </h4>
+                    </x-nav-link> --}}
+                </div>           
                     {{ $slot }}
-                </div>
+               
             </div>
         </main>
     </div>

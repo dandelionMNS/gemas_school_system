@@ -20,4 +20,10 @@ class Student extends Model
         'birth_cert',
         'parent_id',
     ];
+
+
+    public function class()
+    {
+        return $this->belongsTo(Classes::class);
+    }
 }
