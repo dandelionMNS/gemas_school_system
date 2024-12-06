@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('feetype_id');
             $table->string('ref_url');
             $table->string('status');
 
             $table->timestamps();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('feetype_id')->references('id')->on('feetypes')->onDelete('cascade');
          
         });
     }

@@ -36,7 +36,7 @@
                             <select name="teacher_id" required>
                                 <option value=""></option>
                                 @foreach ($teachers as $teacher)
-                                    <option value="{{ $teacher->id }}">Cikgu {{ $teacher->name }}</option>
+                                    <option value="{{ $teacher->id }}">Cikgu {{ $teacher->user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -91,7 +91,7 @@
                                             @foreach ($teachers as $teacher)
                                                 <option value="{{ $teacher->id }}"
                                                     {{ $class->teacher->id == $teacher->id ? 'selected' : '' }}>
-                                                    {{ $teacher->name }}</option>
+                                                    {{ $teacher->user->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>

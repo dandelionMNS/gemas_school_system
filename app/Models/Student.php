@@ -26,4 +26,10 @@ class Student extends Model
     {
         return $this->belongsTo(Classes::class);
     }
+
+    public function parentt()
+    {
+        return $this->belongsTo(Parentt::class);
+    }
+
 }

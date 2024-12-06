@@ -18,7 +18,7 @@
                                 <td>Jenis Akaun</td>
                                 <td>Nama</td>
                                 <td>Tarikh Daftar</td>
-                                <td>Suntingan</td>
+                                {{-- <td>Suntingan</td> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -32,7 +32,7 @@
                                             <form method="POST" action="{{ route('user.updateType', $user->id) }}">
                                                 @csrf
                                                 @method('PUT')
-                                                <select name="type">
+                                                <select name="type" disabled>
                                                     <option
                                                         value="teacher"{{ $user->type == 'teacher' ? 'selected' : '' }}>
                                                         Guru</option>
@@ -46,13 +46,13 @@
                                             ({{ $user->created_at->format('l') }})
                                         </td>
 
-                                        <td class="p-3 flex flex-wrap gap-3">
+                                        {{-- <td class="p-3 flex flex-wrap justify-center gap-3">
                                             <input type="submit" value="Kemas Kini"
                                                 class="btn upt w-full text-center text-nowrap">
                                             </form>
                                             <a href="{{ route('dashboard', ['fyp_id' => $user->id]) }}"
                                                 class="btn dlt w-full text-center">Padam</a>
-                                        </td>
+                                        </td> --}}
 
                                     </tr>
                                     @php $counter++; @endphp

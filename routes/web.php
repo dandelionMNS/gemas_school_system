@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -26,8 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/user', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('user.index');
     Route::put('admin/user/{id}/update', [UserController::class, 'updateType'])->middleware(['auth', 'verified'])->name('user.updateType');
 
-
-
     Route::get('/admin/users/add', [UserController::class, 'addPage'])->middleware(['auth', 'verified'])->name('user.addPage');
     Route::post('/admin/users/added', [UserController::class, 'add'])->middleware(['auth', 'verified'])->name('user.add');
     Route::get('/admin/user/{id}', [UserController::class, 'userDetails'])->middleware(['auth', 'verified'])->name('user.details');
@@ -47,13 +46,28 @@ Route::middleware('auth')->group(function () {
 //Student Related Route
 {
     Route::view('/student', 'pages.stud_list')->middleware(['auth', 'verified'])->name('student');
-    
+
     Route::get('/student/add', [StudentController::class, 'addPage'])->middleware(['auth', 'verified'])->name('student.add');
     Route::post('/student/create', [StudentController::class, 'create'])->middleware(['auth', 'verified'])->name('student.create');
     Route::get('/student/details/{id}', [StudentController::class, 'details'])->middleware(['auth', 'verified'])->name('student.details');
     Route::put('/student/details/{id}/updated', [StudentController::class, 'update'])->middleware(['auth', 'verified'])->name('student.update');
     Route::delete('/student/delete/{id}', [StudentController::class, 'destroy'])->middleware(['auth', 'verified'])->name('student.delete');
+
+}
+
+//Transaction Related Route
+{
+    Route::get('/student/details/{stud_id}/transaction/{feetype_id}', [TransactionController::class, 'addPage'])->middleware(['auth', 'verified'])->name('transaction');
+
+    Route::post('/student/details/{stud_id}/transaction/{feetype_id}/create', [TransactionController::class, 'create'])->middleware(['auth', 'verified'])->name('transaction.create');
+    Route::get('/transaction/download/{encodedPath}', [TransactionController::class, 'download'])->middleware(['auth', 'verified'])->name('transaction.download');
+
+    Route::get('/student/details/{stud_id}/transaction/{feetype_id}/details/{transaction_id}', [TransactionController::class, 'details'])->middleware(['auth', 'verified'])->name('transaction.details');
+    Route::delete('/transaction/{transaction_id}/delete', [TransactionController::class, 'destroy'])->middleware(['auth', 'verified'])->name('transaction.delete');
     
+    Route::put('/transaction/{transaction_id}/approve', [TransactionController::class, 'approve'])->middleware(['auth', 'verified'])->name('transaction.approve');
+    Route::put('/transaction/{transaction_id}/reject', [TransactionController::class, 'reject'])->middleware(['auth', 'verified'])->name('transaction.reject');
+
 }
 
 require __DIR__ . '/auth.php';

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('birth_cert');
             $table->unsignedBigInteger('parent_id')->nullable();
 
-            $table->foreign('parent_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('parent_id')->references('id')->on('parents')->nullOnDelete();
             $table->foreign('class_id')->references('id')->on('classes')->nullOnDelete();
         });
     }

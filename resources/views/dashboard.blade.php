@@ -7,9 +7,9 @@
 
     <div class="dashboard mx-auto sm:px--6 h-full w-full">
         <div class="py-12 bg-[var(--bg-white)] p-12 h-full w-full">
-            <div class="main text-gray-900 sm:px--6 lg:px--8 relative">
 
-                @if (Auth::check() && Auth::user()->type === 'parent')
+            @if (Auth::check() && Auth::user()->type === 'parent')
+                <div class="main text-gray-900 sm:px--6 lg:px--8 relative">
                     <h2 class="text-nowrap pb-5">ANAK SAYA</h2>
 
                     <div class="flex gap-3">
@@ -20,7 +20,8 @@
                                 <div> <strong>Kelas:</strong>{{ $child->class->grade_lvl }} {{ $child->class->name }}
                                 </div>
                                 <div class="pt-5 flex gap-3">
-                                    <a href="{{ route('student.details', ['id' => $child->id]) }}" class="btn upt">Butiran</a>
+                                    <a href="{{ route('student.details', ['id' => $child->id]) }}"
+                                        class="btn upt">Butiran</a>
 
                                     <form class="w-fit" method="POST"
                                         action="{{ route('student.delete', ['id' => $child->id]) }}">
@@ -34,15 +35,67 @@
                             </div>
                         @endforeach
                     </div>
-                @endif
-                <div class="round-btn">
-                    <img src="{{ asset('/icons/ic_plus.svg') }}">
-                    <span>
-                        <a href="{{ route('student.add') }}" class="active opacity-0">Add New Student</a>
-                    </span>
-                </div>
 
-            </div>
+                    <div class="round-btn">
+                        <img src="{{ asset('/icons/ic_plus.svg') }}">
+                        <span>
+                            <a href="{{ route('student.add') }}" class="active opacity-0">Add New Student</a>
+                        </span>
+                    </div>
+                </div>
+            @elseif (Auth::check() && Auth::user()->type === 'teacher')
+                @foreach ($class_teaches as $class_teach)
+                    <div class="main text-gray-900 sm:px--6 lg:px--8 relative">
+
+                        <h2 class="text-nowrap pb-5">KELAS: {{ strtoupper($class_teach->name) }}</h2>
+                        <div class="flex w-full gap-3">
+
+                            <table class="w-full">
+                                <thead class="border-b-2 border-gray-900 ">
+                                    <tr class="text-nowrap">
+                                        <td>No.</td>
+                                        <td>ID</td>
+                                        <td class="w-full text-left">Nama </td>
+                                        <td>Status Bayaran</td>
+                                        <td>Suntingan</td>
+                                        <td>Notifikasi</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $counter = 1; @endphp
+                                    @foreach ($students as $student)
+                                        <tr>
+                                            <td>{{ $counter }}</td>
+                                            <td>{{ $student->id }}</td>
+                                            <td class="text-left">{{ $student->name }}</td>
+                                            <td>{{ 4 }} / {{ $feetypes->count() }}</td>
+
+                                            <td class="p-3 flex flex-nowrap justify-center gap-3">
+                                                <a href="{{ route('student.details', ['id' => $student->id]) }}"
+                                                    class="btn upt">Butiran</a>
+                                            </td>
+                                            <td>Pending</td>
+
+                                        </tr>
+                                        @php $counter++; @endphp
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="round-btn">
+                            <img src="{{ asset('/icons/ic_plus.svg') }}">
+                            <span>
+                                <a href="{{ route('student.add') }}" class="active opacity-0">Add New Student</a>
+                            </span>
+                        </div>
+                    </div>
+                @endforeach
+
+            @endif
+
+
         </div>
 
     </div>

@@ -168,6 +168,42 @@ tbody tr:nth-child(even) {
     }
 }
 
+.crt-sec {
+    border: 2px solid var(--bg-main) !important;
+    background: none;
+    color: var(--bg-main);
+    transition: 300ms ease-in-out;
+
+    &:hover {
+        color: var(--bg-white);
+        background: var(--bg-main);
+    }
+}
+
+.dlt-sec {
+    border: 2px solid red;
+    background: none;
+    color: red;
+    transition: 300ms ease-in-out;
+
+    &:hover {
+        background: red;
+        color: var(--bg-white);
+    }
+}
+
+.upt-sec {
+    border: 2px solid orange;
+    background: none;
+    color: orange;
+    transition: 300ms ease-in-out;
+
+    &:hover {
+        background: orange;
+        color: var(--bg-white);
+    }
+}
+
 td form {
     display: flex;
     justify-content: center;
@@ -186,12 +222,13 @@ tbody td {
     text-align: center;
 }
 
-td input, #studentForm input{
+td input,
+#studentForm input {
     border: none;
     border-radius: 10px;
 }
 
-.add-form{
+.add-form {
     input {
         border: none;
         border-radius: 10px;
@@ -237,7 +274,7 @@ td input, #studentForm input{
         border-radius: 10px;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
             background: var(--bg-main);
             color: var(--bg-white);
         }
@@ -248,7 +285,7 @@ td input, #studentForm input{
     }
 }
 
-
-input:disabled, select:disabled{
+input:disabled,
+select:disabled {
     background: none;
 }

@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Classes;
+use App\Models\FeeType;
+use App\Models\Transaction;
+
 
 class StudentController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $students = Student::all();
-        return view("dashboard",compact("students"));
+        return view("dashboard", compact("students"));
     }
 
-    public function addPage(){
+    public function addPage()
+    {
         $classes = Classes::all()->sortBy('grade_lvl');
-        return view("pages.stud_add", compact("classes"));
+        return view("pages.stud_details", compact("classes", ));
     }
 
     public function create(Request $request)
@@ -32,10 +37,13 @@ class StudentController extends Controller
         return redirect("dashboard")->with("success", "");
     }
 
-    public function details($id){
+    public function details($id)
+    {
         $classes = Classes::all()->sortBy('grade_lvl');
         $stud_details = Student::find($id);
-        return view("pages.stud_add", compact("classes", "stud_details"));
+        $feetypes = FeeType::all();
+        $transactions = Transaction::where('student_id', $id)->get();
+        return view("pages.stud_details", compact("classes", "stud_details", "feetypes", "transactions"));
     }
 
     public function update(Request $request, $id)
@@ -55,7 +63,7 @@ class StudentController extends Controller
     public function destroy($id)
     {
         Student::find($id)->delete();
-        return redirect("dashboard")->with("success","");
+        return redirect("dashboard")->with("success", "");
     }
 
 }

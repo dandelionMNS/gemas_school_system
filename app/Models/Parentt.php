@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Classes extends Model
+class Parentt extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    protected $table = 'parents'; 
 
     protected $fillable = [
         'id',
-        'grade_lvl',
-        'name',
-        'teacher_id',
+        'user_id'
     ];
 
-    public function teacher()
+
+    public function user()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(User::class);
     }
 }
