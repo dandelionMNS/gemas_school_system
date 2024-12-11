@@ -15,5 +15,6 @@ class Feetype extends Model
         "id",
         "name",
         "amount",
+        "due"
     ];
 }
