@@ -90,7 +90,7 @@ class TransactionController extends Controller
 
     public function reject($transaction_id){
         $transaction = Transaction::find($transaction_id);
-        $transaction->status = "Rejected";
+        $transaction->status = "Ditolak";
         $transaction->save();
         return redirect()->back()->with('success', 'Transaction Rejected.');
     }
