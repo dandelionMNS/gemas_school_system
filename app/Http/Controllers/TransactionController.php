@@ -31,7 +31,7 @@ class TransactionController extends Controller
         $transaction->student_id = $request->input('student_id');
         $transaction->feetype_id = $request->input('feetype_id');
         $transaction->ref_url = "pending...";
-        $transaction->status = "pending";
+        $transaction->status = "Belum Diproses";
         $transaction->save();
 
         if ($request->hasFile('receipt')) {
@@ -83,7 +83,7 @@ class TransactionController extends Controller
 
     public function approve($transaction_id){
         $transaction = Transaction::find($transaction_id);
-        $transaction->status = "Approved";
+        $transaction->status = "Diluluskan";
         $transaction->save();
         return redirect()->back()->with('success', 'Transaction Approved.');
     }

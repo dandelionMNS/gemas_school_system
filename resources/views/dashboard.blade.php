@@ -64,20 +64,32 @@
                                 <tbody>
                                     @php $counter = 1; @endphp
                                     @foreach ($students as $student)
-                                        <tr>
-                                            <td>{{ $counter }}</td>
-                                            <td>{{ $student->id }}</td>
-                                            <td class="text-left">{{ $student->name }}</td>
-                                            <td>{{ 4 }} / {{ $feetypes->count() }}</td>
+                                        @if ($student->class->id == $class_teach->id)
+                                            <tr>
+                                                <td>{{ $counter }}</td>
+                                                <td>{{ $student->id }}</td>
+                                                <td class="text-left">{{ $student->name }}</td>
 
-                                            <td class="p-3 flex flex-nowrap justify-center gap-3">
-                                                <a href="{{ route('student.details', ['id' => $student->id]) }}"
-                                                    class="btn upt">Butiran</a>
-                                            </td>
-                                            <td>Pending</td>
+                                                @php
+                                                    $paid_transaction_count = \App\Models\Transaction::where(
+                                                        'student_id',
+                                                        $student->id,
+                                                    )
+                                                        ->where('status', 'Diluluskan')
+                                                        ->count();
+                                                @endphp
 
-                                        </tr>
-                                        @php $counter++; @endphp
+                                                <td>{{ $paid_transaction_count }} / {{ $feetypes->count() }}</td>
+
+                                                <td class="p-3 flex flex-nowrap justify-center gap-3">
+                                                    <a href="{{ route('student.details', ['id' => $student->id]) }}"
+                                                        class="btn upt">Butiran</a>
+                                                </td>
+                                                <td>Belum Selesai</td>
+
+                                            </tr>
+                                            @php $counter++; @endphp
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>

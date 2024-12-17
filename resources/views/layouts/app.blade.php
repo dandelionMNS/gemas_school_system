@@ -23,8 +23,18 @@
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white shadow">
-                <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                 {{-- Put any update or anything status here --}}
+                <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8 flex gap-3">
+                    @if (Auth::check() && Auth::user()->type === 'parent')
+                        @if (Auth::user()->address == null ||
+                                Auth::user()->phone == null ||
+                                Auth::user()->address == null ||
+                                Auth::user()->occupation == null)
+                            <img src="{{ asset('icons/ic_warning.svg') }}" alt="Warning">
+                            <p class="text-red-500">
+                                Kemas kini profil akaun anda di bahagian "Sunting Profil" di penjuru kanan atas laman web.
+                            </p>
+                        @endif
+                    @endif
                 </div>
             </header>
         @endisset
@@ -55,9 +65,9 @@
                     {{-- <x-nav-link :href="route('student')" :active="request()->routeIs('students')">
                         <h4> {{ __('Senarai Pelajar') }} </h4>
                     </x-nav-link> --}}
-                </div>           
-                    {{ $slot }}
-               
+                </div>
+                {{ $slot }}
+
             </div>
         </main>
     </div>

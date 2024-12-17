@@ -225,7 +225,7 @@
 
                                         <td class="p-3 flex gap-3">
 
-                                            @if ($transaction->status == 'pending' && Auth::user()->type == 'parent')
+                                            @if ($transaction->status == 'Belum Diproses' && Auth::user()->type == 'parent')
                                                 <form class="w-fit" method="POST"
                                                     action="{{ route('transaction.delete', ['transaction_id' => $transaction->id]) }}">
 
@@ -233,12 +233,12 @@
                                                     @method('DELETE')
                                                     <input class="btn dlt w-full text-center" type="submit" value="Padam">
                                                 </form>
-                                            @elseif ($transaction->status == 'pending' && Auth::user()->type == 'teacher')
+                                            @elseif ($transaction->status == 'Belum Diproses' && Auth::user()->type == 'teacher')
                                                 <form class="w-fit" method="POST"
                                                     action="{{ route('transaction.approve', ['transaction_id' => $transaction->id]) }}">
                                                     @csrf
                                                     @method('PUT')
-                                                    <input class="btn crt w-full text-center" type="submit" value="Terima">
+                                                    <input class="btn crt w-full text-center" type="submit" value="Diluluskan">
                                                 </form>
 
                                                 <form class="w-fit" method="POST"

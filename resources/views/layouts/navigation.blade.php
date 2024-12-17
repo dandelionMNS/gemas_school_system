@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                    <img src="{{asset('images/logo sekolah.png')}}" style="height: 50px; width: 46px">
+                        <img src="{{ asset('images/logo sekolah.png') }}" style="height: 50px; width: 46px">
                     </a>
                 </div>
 
@@ -29,11 +29,12 @@
                             {{ __('Senarai Jenis Yuran') }}
                         </x-nav-link>
                     @endif
-
-                    {{-- <x-nav-link :href="route('student')" :active="request()->routeIs('students')">
-                        {{ __('Senarai Pelajar') }}
-                    </x-nav-link> --}}
-
+                    @if (Auth::check() && Auth::user()->type === 'teacher')
+ 
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('feetype.index')">
+                            {{ __('Kelas Mengajar') }}
+                        </x-nav-link>
+                    @endif
 
                 </div>
             </div>
