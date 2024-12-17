@@ -67,19 +67,66 @@
                                 value="{{ old('birth_cert', isset($stud_details) ? $stud_details->birth_cert : '') }}">
                         </div>
 
-                        @php
-                            $parentId = \App\Models\Parentt::where('user_id', Auth::id())->value('id');
-                        @endphp
-                        <input type="hidden" name="parent_id" value="{{ $parentId }}">
+                        @isset($stud_details)
+                            @php
+                                $parentt_stud = \App\Models\Parentt::find($stud_details->parent_id);
+                                $parent_details = \App\Models\User::find($parentt_stud->user_id);
+                            @endphp
+
+                            <div class="border-t border-[#ccc] pt-3 flex flex-col gap-3">
+                                <h3>Maklumat Waris</h3>
+                                <div class="flex gap-2 flex-wrap">
+                                    <label>
+                                        Nama:
+                                    </label>
+                                    <p>{{ $parent_details->name }}</p>
+                                </div>
+
+                                <div class="flex gap-2 flex-wrap">
+                                    <label>
+                                        Pekerjaan:
+                                    </label>
+                                    <p>{{ $parent_details->occupation }}</p>
+                                </div>
+
+                                <div class="flex gap-2 flex-wrap">
+                                    <label>
+                                        Alamat:
+                                    </label>
+                                    <p>{{ $parent_details->address }}</p>
+                                </div>
+
+                            </div>
+
+                            <input type="hidden" name="parent_id" value="{{ $stud_details->parent_id }}">
+                        @endisset
+
+                        @if (Auth::user()->type == 'parent')
+                            @php
+                                $parentt_create_form = \App\Models\Parentt::where('user_id', Auth::user()->id)->first();
+                            @endphp
+                        <input type="hidden" name="parent_id" value="{{ $parentt_create_form->id  }}">
+                        @endif 
 
                         <input type="submit" class="btn crt" value="Simpan" id="submitBtn">
 
+
                         @isset($stud_details)
-                            <button id="toggleEdit" class="btn w-full text-nowrap mt-5 upt" type="button">Kemas
-                                Kini</button>
+                            @if (Auth::user()->type == 'teacher')
+                                <button id="toggleEdit" class="btn w-full text-nowrap mt-5 upt" type="button">Kemas
+                                    Kini</button>
+                            @endif
                         @endisset()
                         </form>
+
+
+
+
+
+
                     </div>
+
+
 
                     @if (isset($stud_details))
                         <div class="payment-container border border-[#ddd] rounded-lg py-5 px-10">
@@ -138,6 +185,8 @@
                     @endif
                 </div>
 
+
+
                 {{-- Transactions Records --}}
                 @isset($stud_details)
                     <div class="flex flex-col">
@@ -184,7 +233,6 @@
                                                     @method('DELETE')
                                                     <input class="btn dlt w-full text-center" type="submit" value="Padam">
                                                 </form>
-                                                
                                             @elseif ($transaction->status == 'pending' && Auth::user()->type == 'teacher')
                                                 <form class="w-fit" method="POST"
                                                     action="{{ route('transaction.approve', ['transaction_id' => $transaction->id]) }}">
@@ -216,6 +264,8 @@
 
                     </div>
                 @endisset
+
+
 
 
             </div>

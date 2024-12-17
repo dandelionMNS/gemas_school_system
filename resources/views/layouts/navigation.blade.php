@@ -24,6 +24,10 @@
                         <x-nav-link :href="route('class.index')" :active="request()->routeIs('class.index')">
                             {{ __('Senarai Kelas') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('feetype.index')" :active="request()->routeIs('feetype.index')">
+                            {{ __('Senarai Jenis Yuran') }}
+                        </x-nav-link>
                     @endif
 
                     {{-- <x-nav-link :href="route('student')" :active="request()->routeIs('students')">

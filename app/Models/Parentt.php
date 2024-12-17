@@ -17,7 +17,7 @@ class Parentt extends Model
     ];
 
 
-    public function user()
+    public function user_parent()
     {
         return $this->belongsTo(User::class);
     }

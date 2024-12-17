@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\FeeTypeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -40,6 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/class/create', [ClassController::class, 'create'])->middleware(['auth', 'verified'])->name('class.create');
     Route::put('/admin/class/{id}/update', [ClassController::class, 'update'])->middleware(['auth', 'verified'])->name('class.update');
     Route::delete('/admin/class/{id}/delete', [ClassController::class, 'delete'])->middleware(['auth', 'verified'])->name('class.delete');
+}
+
+// Feetype controller
+{
+    Route::get('/admin/feetype', [FeeTypeController::class, 'index'])->middleware(['auth', 'verified'])->name('feetype.index');
+    Route::post('/admin/feetype/create', [FeeTypeController::class, 'create'])->middleware(['auth', 'verified'])->name('feetype.create');
+    Route::put('/admin/feetype/{id}/update', [FeeTypeController::class, 'update'])->middleware(['auth', 'verified'])->name('feetype.update');
+    Route::delete('/admin/feetype/{id}/delete', [FeeTypeController::class, 'delete'])->middleware(['auth', 'verified'])->name('feetype.delete');
 }
 
 
