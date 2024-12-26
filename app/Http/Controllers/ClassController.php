@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Models\Teacher;
 use App\Models\Classes;
 
@@ -12,9 +11,7 @@ class ClassController extends Controller
     public function index()
     {
         $classes = Classes::all();
-        $teachers = Teacher::whereHas('user', function ($query) {
-            $query->where('type', '!=', 'admin');
-        })->get();
+        $teachers = Teacher::all();
         return view("pages.class_list", compact("classes", "teachers"));
     }
 

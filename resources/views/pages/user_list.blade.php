@@ -29,16 +29,15 @@
                                         <td>{{ $counter }}</td>
                                         <td>{{ $user->id }}</td>
                                         <td>
-                                            <form method="POST" action="{{ route('user.updateType', $user->id) }}">
+                                            {{-- <form method="POST" action="{{ route('user.updateType', $user->id) }}">
                                                 @csrf
-                                                @method('PUT')
-                                                <select name="type" disabled>
-                                                    <option
-                                                        value="teacher"{{ $user->type == 'teacher' ? 'selected' : '' }}>
-                                                        Guru</option>
-                                                    <option value="parent"
-                                                        {{ $user->type == 'parent' ? 'selected' : '' }}>Waris</option>
-                                                </select>
+                                                @method('PUT') --}}
+                                            <select name="type" disabled>
+                                                <option value="teacher"{{ $user->type == 'teacher' ? 'selected' : '' }}>
+                                                    Guru</option>
+                                                <option value="parent" {{ $user->type == 'parent' ? 'selected' : '' }}>
+                                                    Waris</option>
+                                            </select>
 
                                         </td>
                                         <td>{{ $user->name }}</td>
@@ -53,6 +52,14 @@
                                             <a href="{{ route('dashboard', ['fyp_id' => $user->id]) }}"
                                                 class="btn dlt w-full text-center">Padam</a>
                                         </td> --}}
+
+                                        <td>
+                                            <form method="POST" action="{{route('sendingmail')}}">
+                                                @csrf 
+
+                                                <x-primary-button type='submit'>Send Mail</x-primary-button>
+                                            </form>
+                                        </td>
 
                                     </tr>
                                     @php $counter++; @endphp

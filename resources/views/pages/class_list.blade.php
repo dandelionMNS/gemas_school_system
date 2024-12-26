@@ -35,12 +35,17 @@
                             <label for="teacher_id">Guru Kelas:</label>
                             <select name="teacher_id" required>
                                 <option value=""></option>
+
+                                @php
+                                    $teachers = $teachers->reject(function ($teacher) {
+                                        return $teacher->user_id == 1;
+                                    });
+                                @endphp
                                 @foreach ($teachers as $teacher)
                                     <option value="{{ $teacher->id }}">Cikgu {{ $teacher->user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
                         <input type="submit" value="Simpan" class="btn crt">
                     </div>
                 </form>
@@ -53,7 +58,6 @@
                                 <td>Tahun</td>
                                 <td>Kelas</td>
                                 <td>Guru Kelas</td>
-                                <td>Jumlah Murid</td>
                                 <td>Status</td>
                                 <td>Suntingan</td>
                             </tr>
@@ -88,17 +92,22 @@
                                     <td>
                                         <select name="teacher_id" class="w-full">
                                             <option value=""></option>
+                                            @php
+                                                $teachers = $teachers->reject(function ($teacher) {
+                                                    return $teacher->user_id == 1;
+                                                });
+                                            @endphp
+
                                             @foreach ($teachers as $teacher)
                                                 <option value="{{ $teacher->id }}"
                                                     {{ $class->teacher->id == $teacher->id ? 'selected' : '' }}>
-                                                    {{ $teacher->user->name }}</option>
+                                                    Cikgu {{ $teacher->user->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td></td>
-                                    <td></td>
 
-                                    <td class="p-3 flex flex-wrap gap-3">
+                                    <td class="p-3 flex flex gap-3">
                                         <input type="submit" value="Kemas Kini" class="btn upt w-full text-center">
                                         </form>
 

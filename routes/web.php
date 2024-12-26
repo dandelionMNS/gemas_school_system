@@ -6,6 +6,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,7 +24,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// User controller
+// User Related Route
 {
     Route::get('/admin/user', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('user.index');
     Route::put('admin/user/{id}/update', [UserController::class, 'updateType'])->middleware(['auth', 'verified'])->name('user.updateType');
@@ -35,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/user/{id}/delete', [UserController::class, 'userDelete'])->middleware(['auth', 'verified'])->name('user.delete');
 }
 
-// Class controller
+// Classes Related Route
 {
     Route::get('/admin/class', [ClassController::class, 'index'])->middleware(['auth', 'verified'])->name('class.index');
     Route::post('/admin/class/create', [ClassController::class, 'create'])->middleware(['auth', 'verified'])->name('class.create');
@@ -43,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/class/{id}/delete', [ClassController::class, 'delete'])->middleware(['auth', 'verified'])->name('class.delete');
 }
 
-// Feetype controller
+// Feetype Related Route
 {
     Route::get('/admin/feetype', [FeeTypeController::class, 'index'])->middleware(['auth', 'verified'])->name('feetype.index');
     Route::post('/admin/feetype/create', [FeeTypeController::class, 'create'])->middleware(['auth', 'verified'])->name('feetype.create');
@@ -77,6 +78,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/transaction/{transaction_id}/approve', [TransactionController::class, 'approve'])->middleware(['auth', 'verified'])->name('transaction.approve');
     Route::put('/transaction/{transaction_id}/reject', [TransactionController::class, 'reject'])->middleware(['auth', 'verified'])->name('transaction.reject');
 
+}
+
+// Mail Related Route
+{
+    Route::post('/mail/send', [MailController::class, 'send'])->middleware(['auth', 'verified'])->name('sendingmail');
 }
 
 require __DIR__ . '/auth.php';

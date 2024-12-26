@@ -72,7 +72,7 @@
                                         required>
                                     </td> 
 
-                                    <td class="p-3 flex flex-wrap gap-3 justify-center">
+                                    <td class="p-3 flex gap-3 justify-center">
                                         <input type="submit" value="Kemas Kini" class="btn upt w-full text-center">
                                         </form>
 
