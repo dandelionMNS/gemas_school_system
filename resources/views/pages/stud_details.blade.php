@@ -105,8 +105,8 @@
                             @php
                                 $parentt_create_form = \App\Models\Parentt::where('user_id', Auth::user()->id)->first();
                             @endphp
-                        <input type="hidden" name="parent_id" value="{{ $parentt_create_form->id  }}">
-                        @endif 
+                            <input type="hidden" name="parent_id" value="{{ $parentt_create_form->id }}">
+                        @endif
 
                         <input type="submit" class="btn crt" value="Simpan" id="submitBtn">
 
@@ -145,29 +145,27 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $feetype->name }}</td>
                                             <td>{{ number_format($feetype->amount, 2) }}</td>
+                            
                                             <td>
                                                 @php
-                                                    $matchingTransactions = $transactions->filter(function (
-                                                        $transaction,
-                                                    ) use ($feetype) {
-                                                        return $transaction->feetype_id === $feetype->id;
-                                                    });
+                                                    // Filter transactions by feetype_id and get distinct transaction statuses
+                                                    $matchingTransactions = $transactions->where('feetype_id', $feetype->id);
+                                                    $approvedTransaction = $matchingTransactions->firstWhere('status', 'Diluluskan');
+                                                    $pendingTransaction = $matchingTransactions->firstWhere('status', 'Pending');
                                                 @endphp
-
-                                                @if ($matchingTransactions->isNotEmpty())
-                                                    @foreach ($matchingTransactions as $transaction)
-                                                        <button class="btn upt">{{ $transaction->status }}</button>
-                                                    @endforeach
+                            
+                                                @if ($approvedTransaction)
+                                                    <button class="btn upt">{{ $approvedTransaction->status }}</button>
+                                                @elseif ($pendingTransaction)
+                                                    <span>Perlu Disemak</span>
                                                 @else
                                                     @if (Auth::user()->type == 'parent')
                                                         <a class="btn crt-sec"
-                                                            href="{{ route('transaction', ['stud_id' => $stud_details->id, 'feetype_id' => $feetype->id]) }}">
-                                                            Bayar Sekarang
+                                                           href="{{ route('transaction', ['stud_id' => $stud_details->id, 'feetype_id' => $feetype->id]) }}">
+                                                           Bayar Sekarang
                                                         </a>
                                                     @else
-                                                        <a>
-                                                            Belum Bayar
-                                                        </a>
+                                                        <span>Belum Bayar</span>
                                                     @endif
                                                 @endif
                                             </td>
@@ -178,8 +176,8 @@
                                         <td colspan="2">RM {{ number_format($feetypes->sum('amount'), 2) }}</td>
                                     </tr>
                                 </tbody>
-
                             </table>
+                            
                         </div>
 
                     @endif
@@ -238,7 +236,8 @@
                                                     action="{{ route('transaction.approve', ['transaction_id' => $transaction->id]) }}">
                                                     @csrf
                                                     @method('PUT')
-                                                    <input class="btn crt w-full text-center" type="submit" value="Diluluskan">
+                                                    <input class="btn crt w-full text-center" type="submit"
+                                                        value="Diluluskan">
                                                 </form>
 
                                                 <form class="w-fit" method="POST"

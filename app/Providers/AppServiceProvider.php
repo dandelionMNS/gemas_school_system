@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\FeeType;
 use App\Models\Student;
+use App\Models\Transaction;
 use Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -34,6 +35,12 @@ class AppServiceProvider extends ServiceProvider
             switch ($user->type) {
                 case 'admin':
                     $view->with('users', User::all());
+                    $view->with('teachers', Teacher::all());
+                    $view->with('parents', Parentt::all());
+                    $view->with('studentss', Student::all());
+                    $view->with('feetypes', Feetype::all());
+                    $view->with('transactions', Transaction::all());
+
                 case 'teacher':
                     $teacherID = Teacher::where('user_id', Auth::id())->value('id');
                     $view->with('students', Student::whereHas('class', function ($query) use ($teacherID) {
