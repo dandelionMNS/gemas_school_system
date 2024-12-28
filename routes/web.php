@@ -79,6 +79,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/transaction/{transaction_id}/reject', [TransactionController::class, 'reject'])->middleware(['auth', 'verified'])->name('transaction.reject');
 
 }
+// Transaction Record Related Route
+{
+    Route::view('/records/select', 'pages.record')->middleware(['auth', 'verified'])->name('record.index');
+}
 
 // Mail Related Route
 {

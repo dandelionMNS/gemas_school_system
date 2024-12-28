@@ -56,9 +56,13 @@
                         <x-nav-link :href="route('class.index')" :active="request()->routeIs('class.index')">
                             <h4> {{ __('Senarai Kelas') }} </h4>
                         </x-nav-link>
-
+S
                         <x-nav-link :href="route('feetype.index')" :active="request()->routeIs('feetype.index')">
                             <h4> {{ __('Senarai Jenis Yuran') }} </h4>
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('record.index')" :active="request()->routeIs('record.index')">
+                            <h4> {{ __('Rekod Transaksi') }} </h4>
                         </x-nav-link>
                     @endif
 

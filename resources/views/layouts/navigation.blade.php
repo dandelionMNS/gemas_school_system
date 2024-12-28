@@ -28,6 +28,10 @@
                         <x-nav-link :href="route('feetype.index')" :active="request()->routeIs('feetype.index')">
                             {{ __('Senarai Jenis Yuran') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('record.index')" :active="request()->routeIs('record.index')">
+                            {{ __('Rekod Transaksi') }}
+                        </x-nav-link>
                     @endif
                     @if (Auth::check() && Auth::user()->type === 'teacher')
  

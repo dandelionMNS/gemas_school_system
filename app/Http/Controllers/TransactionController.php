@@ -95,6 +95,13 @@ class TransactionController extends Controller
         return redirect()->back()->with('success', 'Transaction Rejected.');
     }
 
+    // ================== [ Monthly Record ] ==================
 
+    public function show_record($student_id, $feetype_id)
+    {
+        $feetype = Feetype::find($feetype_id);
+        $student = Student::find($student_id);
+        return view("pages.transaction_create", compact("feetype", "student"));
+    }
 
 }
