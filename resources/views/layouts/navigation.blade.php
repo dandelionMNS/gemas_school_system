@@ -29,7 +29,7 @@
                             {{ __('Senarai Jenis Yuran') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('record.index')" :active="request()->routeIs('record.index')">
+                        <x-nav-link :href="route('record.index')" :active="request()->is('records')">
                             {{ __('Rekod Transaksi') }}
                         </x-nav-link>
                     @endif

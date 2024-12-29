@@ -74,14 +74,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/student/details/{stud_id}/transaction/{feetype_id}/details/{transaction_id}', [TransactionController::class, 'details'])->middleware(['auth', 'verified'])->name('transaction.details');
     Route::delete('/transaction/{transaction_id}/delete', [TransactionController::class, 'destroy'])->middleware(['auth', 'verified'])->name('transaction.delete');
-    
+
     Route::put('/transaction/{transaction_id}/approve', [TransactionController::class, 'approve'])->middleware(['auth', 'verified'])->name('transaction.approve');
     Route::put('/transaction/{transaction_id}/reject', [TransactionController::class, 'reject'])->middleware(['auth', 'verified'])->name('transaction.reject');
 
 }
 // Transaction Record Related Route
 {
-    Route::view('/records/select', 'pages.record')->middleware(['auth', 'verified'])->name('record.index');
+    Route::get('/records', [TransactionController::class, 'record_index'])->middleware(['auth', 'verified'])->name('record.index');
+    Route::post('/records', [TransactionController::class, 'record_find'])->middleware(['auth', 'verified'])->name('record.find');
+    Route::post('/records/download', [TransactionController::class, 'print_record'])->middleware(['auth', 'verified'])->name('record.download');
+
 }
 
 // Mail Related Route

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Transaction;
+use App\Models\Classes;
 use App\Models\Feetype;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
@@ -81,14 +83,16 @@ class TransactionController extends Controller
         return redirect()->back()->with('success', 'Transaction Deleted.');
     }
 
-    public function approve($transaction_id){
+    public function approve($transaction_id)
+    {
         $transaction = Transaction::find($transaction_id);
         $transaction->status = "Diluluskan";
         $transaction->save();
         return redirect()->back()->with('success', 'Transaction Approved.');
     }
 
-    public function reject($transaction_id){
+    public function reject($transaction_id)
+    {
         $transaction = Transaction::find($transaction_id);
         $transaction->status = "Ditolak";
         $transaction->save();
@@ -97,11 +101,75 @@ class TransactionController extends Controller
 
     // ================== [ Monthly Record ] ==================
 
-    public function show_record($student_id, $feetype_id)
+
+    public function record_index()
     {
-        $feetype = Feetype::find($feetype_id);
-        $student = Student::find($student_id);
-        return view("pages.transaction_create", compact("feetype", "student"));
+        $classes = Classes::all();
+        $current = date('Y-m');
+
+        return view('pages.record', compact('classes', 'current' ));
+    }
+
+    public function record_find(Request $request)
+    {
+        $class_id = $request->input('class_id');
+        $month = $request->input('month');
+
+        $query = Transaction::query();
+
+        if ($class_id !== 'all') {
+            $query->whereHas('student', function ($query) use ($class_id) {
+                $query->where('class_id', $class_id);
+            });
+        }
+
+        $transactions = $query->whereYear('created_at', substr($month, 0, 4))
+            ->whereMonth('created_at', substr($month, 5, 2))
+            ->get();
+
+        $classes = Classes::all();
+        $current = $month;
+
+        return view('pages.record', compact('transactions', 'classes', 'class_id', 'current'));
+    }
+
+    // Checkpoint
+
+    public function print_record(Request $request)
+    {
+        $class_id = $request->input('class_id', 'all');
+
+        $month = $request->input('month');
+
+        $query = Transaction::query();
+
+        if ($class_id !== 'all') {
+            $query->whereHas('student', function ($query) use ($class_id) {
+                $query->where('class_id', $class_id);
+            });
+        }
+
+        $transactions = $query->whereYear('created_at', substr($month, 0, 4))
+            ->whereMonth('created_at', substr($month, 5, 2))
+            ->get();
+
+        if ($class_id != 'all') {
+            $class = Classes::find($class_id);
+        } else {
+            $class = (object) [
+                'grade_lvl' => '-',
+                'name' => '', 
+            ];
+        }
+        // Generate the PDF using the blade view
+        $pdf = Pdf::loadView('pages.record_print', [
+            'transactions' => $transactions,
+            'class' => $class,
+            'month' => $month,
+        ]);
+
+        // Download the PDF file
+        return $pdf->download('monthly_records_' . $month . '.pdf');
     }
 
 }
