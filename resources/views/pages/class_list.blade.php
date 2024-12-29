@@ -107,7 +107,7 @@
                                     </td>
                                     <td></td>
 
-                                    <td class="p-3 flex flex gap-3">
+                                    <td class="p-3 flex gap-3">
                                         <input type="submit" value="Kemas Kini" class="btn upt w-full text-center">
                                         </form>
 
