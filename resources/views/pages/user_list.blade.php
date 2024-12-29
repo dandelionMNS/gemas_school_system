@@ -45,20 +45,21 @@
                                             ({{ $user->created_at->format('l') }})
                                         </td>
 
-                                        {{-- <td class="p-3 flex flex-wrap justify-center gap-3">
-                                            <input type="submit" value="Kemas Kini"
-                                                class="btn upt w-full text-center text-nowrap">
-                                            </form>
-                                            <a href="{{ route('dashboard', ['fyp_id' => $user->id]) }}"
-                                                class="btn dlt w-full text-center">Padam</a>
-                                        </td> --}}
-
                                         <td>
-                                            <form method="POST" action="{{route('sendingmail')}}">
-                                                @csrf 
+                                            @if ($user->type == 'parent')
+                                                @php
+                                                    $parent = \App\Models\Parentt::where(
+                                                        'user_id',
+                                                        $user->id,
+                                                    )->first();
+                                                @endphp
+                                                <form method="POST"
+                                                    action="{{ route('reminder.mail', ['parent_id' => $parent->id]) }}">
+                                                    @csrf
 
-                                                <x-primary-button type='submit'>Send Mail</x-primary-button>
-                                            </form>
+                                                    <x-primary-button type='submit'>Send Mail</x-primary-button>
+                                                </form>
+                                            @endif
                                         </td>
 
                                     </tr>

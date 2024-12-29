@@ -13,12 +13,15 @@ class ReminderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $parent;
+    public $unpaidFees;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($parent, $unpaidFees)
     {
-        //
+        $this->parent = $parent;
+        $this->unpaidFees = $unpaidFees;
     }
 
     /**
@@ -38,6 +41,10 @@ class ReminderMail extends Mailable
     {
         return new Content(
             view: 'mail.reminder',
+            with: [
+                'parent' => $this->parent,
+                'unpaidFees' => $this->unpaidFees,
+            ]
         );
     }
 

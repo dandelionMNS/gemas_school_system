@@ -90,6 +90,8 @@ Route::middleware('auth')->group(function () {
 // Mail Related Route
 {
     Route::post('/mail/send', [MailController::class, 'send'])->middleware(['auth', 'verified'])->name('sendingmail');
+    Route::post('/send-reminders', [MailController::class, 'sendReminders'])->name('reminder.mail');
+
 }
 
 require __DIR__ . '/auth.php';
