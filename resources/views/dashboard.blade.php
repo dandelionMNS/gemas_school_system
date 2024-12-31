@@ -16,7 +16,7 @@
 
                         @foreach ($children as $child)
                             <div class="card">
-                                <div> <strong>Name:</strong> {{ $child->name }}</div>
+                                <div> <strong>Nama:</strong> {{ $child->name }}</div>
                                 <div> <strong>Kelas:</strong>{{ $child->class->grade_lvl }} {{ $child->class->name }}
                                 </div>
                                 <div class="pt-5 flex gap-3">
@@ -39,7 +39,7 @@
                     <div class="round-btn">
                         <img src="{{ asset('/icons/ic_plus.svg') }}">
                         <span>
-                            <a href="{{ route('student.add') }}" class="active opacity-0">Add New Student</a>
+                            <a href="{{ route('student.add') }}" class="active opacity-0">Daftar Pelajar Baru</a>
                         </span>
                     </div>
                 </div>

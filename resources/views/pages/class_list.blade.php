@@ -42,7 +42,7 @@
                                     });
                                 @endphp
                                 @foreach ($teachers as $teacher)
-                                    <option value="{{ $teacher->id }}">Cikgu {{ $teacher->user->name }}</option>
+                                    <option value="{{ $teacher->id }}">Ustazah {{ $teacher->user->name }}</option>
                                 @endforeach
                             </select>
                         </div>

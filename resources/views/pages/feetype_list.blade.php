@@ -23,7 +23,7 @@
 
                         <div class="flex gap-2">
                             <label for="amount">Jumlah Bayaran:</label>
-                            <input type="number" id="amount" name="amount" required>
+                            <input type="number" step="0.01" id="amount" name="amount" required>
                         </div>
 
                         <div class="flex gap-2">
@@ -41,7 +41,7 @@
                             <tr class="text-nowrap">
                                 <td>No.</td>
                                 <td>Nama</td>
-                                <td>Jumlah</td>
+                                <td>Amaun (RM)</td>
                                 <td>Tarikh Akhir Bayaran</td>
                                 <td>Suntingan</td>
                             </tr>
@@ -63,7 +63,7 @@
                                            
                                     </td>
                                     <td>
-                                        <input name="amount" type="number" value="{{ $feetype->amount }}" class="bg-none border-0 rounded-lg"
+                                        <input name="amount" type="number" value="{{ number_format($feetype->amount, 2)  }}" class="bg-none border-0 rounded-lg"
                                             required>
                                     </td>
 
