@@ -7,11 +7,13 @@
 
     <div class="dashboard mx-auto sm:px--6 h-full">
         <div class="py-12 bg-[var(--bg-white)] p-12 h-full">
-
-            <form method="GET" action="{{ route('student.index') }}" class="flex w-full justify-end gap-5">
-                <input type="text" name="search" class="border-0 rounded-lg min" placeholder="Cari Pelajar" value="{{ $search }}">
-                <button type="submit" class="crt btn">Cari</button>
-            </form>
+            <div class="flex justify-between w-full items-center border-b border-gray-300 pb-5">
+                <h2 class="text-nowrap">SENARAI PELAJAR</h2>
+                <form method="GET" action="{{ route('student.index') }}" class="flex w-full justify-end gap-3">
+                    <input type="text" name="search" class="border-0 rounded-lg min outline-0 w-full max-w-80" placeholder="Cari Pelajar" value="{{ $search }}">
+                    <button type="submit" class="crt btn">Cari</button>
+                </form>
+            </div>
             @foreach ($classes as $class)
                 <div class="main text-gray-900 sm:px--6 lg:px--8 relative py-5">
 
