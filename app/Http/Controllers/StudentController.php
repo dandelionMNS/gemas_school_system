@@ -2,19 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parentt;
+use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Classes;
 use App\Models\FeeType;
 use App\Models\Transaction;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::all();
-        return view("dashboard", compact("students"));
+        $search = $request->input('search');
+    
+        $students = Student::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->with('class') 
+            ->get();
+    
+        $teachers = Teacher::all();
+        $classes = Classes::all();
+    
+        return view("pages.stud_list", compact('students', 'teachers', 'classes', 'search'));
     }
 
     public function addPage()
@@ -65,5 +81,28 @@ class StudentController extends Controller
         Student::find($id)->delete();
         return redirect("dashboard")->with("success", "");
     }
+
+    public function print_record($id)
+    {
+        $student = Student::find($id);
+        $class = Classes::find($student->class_id);
+        $parent = User::find(Parentt::find($student->parent_id)?->user_id);
+        $feetypes = FeeType::all();
+        $transactions = Transaction::where('student_id', $id)->get();
+
+
+        // Generate the PDF using the blade view
+        $pdf = Pdf::loadView('print.stud_record', [
+            'class' => $class,
+            'student' => $student,
+            'parent' => $parent,
+            'feetypes' => $feetypes,
+            'transactions' => $transactions,
+        ]);
+
+        // Download the PDF file
+        return $pdf->download("student_record?id={$student->id}.pdf");
+    }
+
 
 }

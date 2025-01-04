@@ -40,6 +40,12 @@
                         </x-nav-link>
                     @endif
 
+                    @if (Auth::check() && Auth::user()->type !== 'parent') 
+                    <x-nav-link :href="route('student.index')" :active="request()->routeIs('student.index')">
+                        {{ __('Senarai Pelajar ') }}
+                    </x-nav-link>
+                @endif
+
                 </div>
             </div>
 

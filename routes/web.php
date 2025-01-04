@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 
 //Student Related Route
 {
-    Route::view('/student', 'pages.stud_list')->middleware(['auth', 'verified'])->name('student');
+    Route::get('/student', [StudentController::class, 'index'])->middleware(['auth', 'verified'])->name('student.index');
 
     Route::get('/student/add', [StudentController::class, 'addPage'])->middleware(['auth', 'verified'])->name('student.add');
     Route::post('/student/create', [StudentController::class, 'create'])->middleware(['auth', 'verified'])->name('student.create');
@@ -68,7 +68,6 @@ Route::middleware('auth')->group(function () {
 //Transaction Related Route
 {
     Route::get('/student/details/{stud_id}/transaction/{feetype_id}', [TransactionController::class, 'addPage'])->middleware(['auth', 'verified'])->name('transaction');
-
     Route::post('/student/details/{stud_id}/transaction/{feetype_id}/create', [TransactionController::class, 'create'])->middleware(['auth', 'verified'])->name('transaction.create');
     Route::get('/transaction/download/{encodedPath}', [TransactionController::class, 'download'])->middleware(['auth', 'verified'])->name('transaction.download');
 
@@ -83,8 +82,12 @@ Route::middleware('auth')->group(function () {
 {
     Route::get('/records', [TransactionController::class, 'record_index'])->middleware(['auth', 'verified'])->name('record.index');
     Route::post('/records', [TransactionController::class, 'record_find'])->middleware(['auth', 'verified'])->name('record.find');
-    Route::post('/records/download', [TransactionController::class, 'print_record'])->middleware(['auth', 'verified'])->name('record.download');
+}
 
+// Download Related Route
+{
+    Route::post('/download/transactions_record', [TransactionController::class, 'print_record'])->middleware(['auth', 'verified'])->name('record.download');
+    Route::get('/download/student_details/{id}', [StudentController::class, 'print_record'])->middleware(['auth', 'verified'])->name('student.download');
 }
 
 // Mail Related Route

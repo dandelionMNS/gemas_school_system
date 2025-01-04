@@ -17,7 +17,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 ">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -43,7 +43,7 @@
         <main style="height: calc(100vh - 138px)">
             <div class="flex max-w-full overflow-x-hidden">
                 {{-- Sidebar --}}
-                <div class="sidebar h-full text-white">
+                <div class="sidebar text-white">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         <h4> {{ __('Laman Utama') }} </h4>
                     </x-nav-link>
@@ -65,11 +65,13 @@
                         </x-nav-link>
                     @endif
 
-                    {{-- <x-nav-link :href="route('student')" :active="request()->routeIs('students')">
+                    @if (Auth::check() && Auth::user()->type !== 'parent')
+                    <x-nav-link :href="route('student.index')" :active="request()->routeIs('student.index')">
                         <h4> {{ __('Senarai Pelajar') }} </h4>
-                    </x-nav-link> --}}
+                    </x-nav-link>
+                    @endif
                 </div>
-                {{ $slot }}
+                {{ $slot }} 
 
             </div>
         </main>

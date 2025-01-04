@@ -119,14 +119,7 @@
                         @endisset()
                         </form>
 
-
-
-
-
-
                     </div>
-
-
 
                     @if (isset($stud_details))
                         <div class="payment-container border border-[#ddd] rounded-lg py-5 px-10">
@@ -145,15 +138,24 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $feetype->name }}</td>
                                             <td>{{ number_format($feetype->amount, 2) }}</td>
-                            
+
                                             <td>
                                                 @php
                                                     // Filter transactions by feetype_id and get distinct transaction statuses
-                                                    $matchingTransactions = $transactions->where('feetype_id', $feetype->id);
-                                                    $approvedTransaction = $matchingTransactions->firstWhere('status', 'Diluluskan');
-                                                    $pendingTransaction = $matchingTransactions->firstWhere('status', 'Pending');
+                                                    $matchingTransactions = $transactions->where(
+                                                        'feetype_id',
+                                                        $feetype->id,
+                                                    );
+                                                    $approvedTransaction = $matchingTransactions->firstWhere(
+                                                        'status',
+                                                        'Diluluskan',
+                                                    );
+                                                    $pendingTransaction = $matchingTransactions->firstWhere(
+                                                        'status',
+                                                        'Pending',
+                                                    );
                                                 @endphp
-                            
+
                                                 @if ($approvedTransaction)
                                                     <button class="btn upt">{{ $approvedTransaction->status }}</button>
                                                 @elseif ($pendingTransaction)
@@ -161,8 +163,8 @@
                                                 @else
                                                     @if (Auth::user()->type == 'parent')
                                                         <a class="btn crt-sec"
-                                                           href="{{ route('transaction', ['stud_id' => $stud_details->id, 'feetype_id' => $feetype->id]) }}">
-                                                           Bayar Sekarang
+                                                            href="{{ route('transaction', ['stud_id' => $stud_details->id, 'feetype_id' => $feetype->id]) }}">
+                                                            Bayar Sekarang
                                                         </a>
                                                     @else
                                                         <span>Belum Bayar</span>
@@ -172,18 +174,36 @@
                                         </tr>
                                     @endforeach
                                     <tr class="font-bold">
-                                        <td colspan="2">Jumlah</td>
-                                        <td colspan="2">RM {{ number_format($feetypes->sum('amount'), 2) }}</td>
+                                        <th colspan="2" class="p-3 border">Jumlah</th>
+                                        <th colspan="2" class="p-3 border">RM
+                                            {{ number_format($feetypes->sum('amount'), 2) }}</th>
+                                    </tr>
+                                    <tr class="font-bold">
+                                        <th colspan="2" class="p-3 border">Jumlah Sudah Dibayar</th>
+                                        <th colspan="2" class="p-3 border">RM
+                                            {{ number_format(
+                                                $feetypes->filter(function ($feetype) use ($transactions) {
+                                                        return $transactions->where('feetype_id', $feetype->id)->contains('status', 'Diluluskan');
+                                                    })->sum('amount'),
+                                                2,
+                                            ) }}
+                                        </th>
                                     </tr>
                                 </tbody>
                             </table>
-                            
+
                         </div>
 
                     @endif
                 </div>
 
-
+                @if (isset($stud_details))
+                    <div class="flex w-full justify-end p-5 pr-">
+                        <a class="btn crt" href="{{ route('student.download', ['id' => $stud_details->id]) }}">
+                            Download
+                        </a>
+                    </div>
+                @endif
 
                 {{-- Transactions Records --}}
                 @isset($stud_details)
@@ -263,9 +283,6 @@
 
                     </div>
                 @endisset
-
-
-
 
             </div>
         </div>

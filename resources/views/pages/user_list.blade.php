@@ -57,7 +57,7 @@
                                                     action="{{ route('reminder.mail', ['parent_id' => $parent->id]) }}">
                                                     @csrf
 
-                                                    <x-primary-button type='submit'>Send Mail</x-primary-button>
+                                                    <x-primary-button class="text-nowrap" type='submit'>Hantar Email</x-primary-button>
                                                 </form>
                                             @endif
                                         </td>

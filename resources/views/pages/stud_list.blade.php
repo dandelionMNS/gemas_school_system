@@ -7,118 +7,55 @@
 
     <div class="dashboard mx-auto sm:px--6 h-full">
         <div class="py-12 bg-[var(--bg-white)] p-12 h-full">
-            <div class="main text-gray-900 sm:px--6 lg:px--8">
-                <h2 class="text-nowrap pb-5">REKOD PEMBAYARAN YURAN</h2>
 
-                <form class="add-form flex flex-col w-min gap-3 p-3" method="POST" action="{{ route('class.create') }}">
-                    @csrf
-                    <h3 class="text-nowrap flex items-center">REKOD PEMBAYARAN YURAN</h3>
+            <form method="GET" action="{{ route('student.index') }}" class="flex w-full justify-end gap-5">
+                <input type="text" name="search" class="border-0 rounded-lg min" placeholder="Cari Pelajar" value="{{ $search }}">
+                <button type="submit" class="crt btn">Cari</button>
+            </form>
+            @foreach ($classes as $class)
+                <div class="main text-gray-900 sm:px--6 lg:px--8 relative py-5">
 
-                    <div class="flex gap-8">
-                        <div class="flex gap-2">
-                            <label for="grade_lvl">Tahun:</label>
-                            <select id="grade_lvl" name="grade_lvl">
-                                @for ($i = 1; $i <= 6; $i++)
-                                    <option value="{{ $i }}">
-                                        {{ $i }}
-                                    </option>
-                                @endfor
-                            </select>
-                        </div>
+                    <h2 class="text-nowrap pb-3">KELAS: {{ strtoupper($class->name) }}</h2>
+                    <div class="flex w-full gap-3">
 
-                        <div class="flex gap-2">
-                            <label for="name">Nama Kelas:</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <label for="teacher_id">Guru Kelas:</label>
-                            <select name="teacher_id" required>
-                                <option value=""></option>
-                                @foreach ($teachers as $teacher)
-                                    <option value="{{ $teacher->id }}">Ustazah {{ $teacher->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <input type="submit" value="Simpan" class="btn crt">
-                    </div>
-                </form>
-
-                <div class="w-full py-5 overflow-auto">
-                    <table>
-                        <thead class="border-b-2 border-gray-900 ">
-                            <tr class="text-nowrap">
-                                <td>No.</td>
-                                <td>Tahun</td>
-                                <td>Kelas</td>
-                                <td>Guru Kelas</td>
-                                <td>Jumlah Murid</td>
-                                <td>Status</td>
-                                <td>Suntingan</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $counter = 1;
-                                $sortedClasses = $classes->sortBy('grade_lvl');
-                            @endphp
-
-                            @foreach ($sortedClasses as $class)
-                                <tr>
-                                    <td class="w-0">{{ $counter }}</td>
-                                    <td class="w-28">
-                                        <form method="POST" action="{{ route('class.update', ['id' => $class->id]) }}">
-                                            @csrf
-                                            @method('PUT')
-                                            <select name="grade_lvl" class="w-full">
-                                                @for ($i = 1; $i <= 6; $i++)
-                                                    <option value="{{ $i }}"
-                                                        {{ $class->grade_lvl == $i ? 'selected' : '' }}>
-                                                        {{ $i }}
-                                                    </option>
-                                                @endfor
-                                            </select>
-                                    </td>
-                                    <td>
-                                        <input name="name" value="{{ $class->name }}" class="bg-none border-0"
-                                            required>
-                                    </td>
-
-                                    <td>
-                                        <select name="teacher_id" class="w-full">
-                                            <option value=""></option>
-                                            @foreach ($teachers as $teacher)
-                                                <option value="{{ $teacher->id }}"
-                                                    {{ $class->teacher->id == $teacher->id ? 'selected' : '' }}>
-                                                    {{ $teacher->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
+                        <table class="w-full">
+                            <thead class="border-b-2 border-gray-900 ">
+                                <tr class="text-nowrap">
+                                    <td>#</td>
+                                    <td>ID</td>
+                                    <td class="w-full text-left">Nama </td>
                                     <td></td>
-                                    <td></td>
-
-                                    <td class="p-3 flex flex-wrap gap-3">
-                                        <input type="submit" value="Kemas Kini" class="btn upt w-full text-center">
-                                        </form>
-
-                                        <form class="w-fit" method="POST"
-                                            action="{{ route('class.delete', ['id' => $class->id]) }}">
-
-                                            @csrf
-                                            @method('DELETE')
-                                            <input class="btn dlt w-full text-center" type="submit" value="Padam">
-                                        </form>
-
-                                    </td>
-
                                 </tr>
-                                @php $counter++; @endphp
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $classStudents = $students->filter(
+                                        fn($student) => $student->class->id == $class->id,
+                                    );
+                                @endphp
+
+                                @if ($classStudents->isEmpty())
+                                    <tr>
+                                        <td colspan="4" class="text-center">Tiada Pelajar Dijumpai.</td>
+                                    </tr>
+                                @else
+                                    @foreach ($classStudents as $index => $student)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $student->id }}</td>
+                                            <td class="text-left">{{ $student->name }}</td>
+                                            <td class="p-3 flex flex-nowrap justify-center gap-3">
+                                                <a href="{{ route('student.details', ['id' => $student->id]) }}"
+                                                    class="btn upt">Butiran</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
 
     </div>

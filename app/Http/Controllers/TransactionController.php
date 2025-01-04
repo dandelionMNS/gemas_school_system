@@ -162,7 +162,7 @@ class TransactionController extends Controller
             ];
         }
         // Generate the PDF using the blade view
-        $pdf = Pdf::loadView('pages.record_print', [
+        $pdf = Pdf::loadView('print.trans_record', [
             'transactions' => $transactions,
             'class' => $class,
             'month' => $month,

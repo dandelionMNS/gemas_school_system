@@ -84,7 +84,6 @@ tbody tr:nth-child(even) {
 
 .sidebar {
     padding-top: 30px;
-    height: calc(100vh - 8.75rem);
     width: clamp(250px, 10vw, 350px);
     background: var(--bg-main);
     display: flex;
