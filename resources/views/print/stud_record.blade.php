@@ -148,14 +148,7 @@
                                         @elseif ($pendingTransaction)
                                             <span>Perlu Disemak</span>
                                         @else
-                                            @if (Auth::user()->type == 'parent')
-                                                <a class="btn crt-sec"
-                                                    href="{{ route('transaction', ['stud_id' => $stud_details->id, 'feetype_id' => $feetype->id]) }}">
-                                                    Bayar Sekarang
-                                                </a>
-                                            @else
                                                 <span>Belum Bayar</span>
-                                            @endif
                                         @endif
                                     </td>
                                 </tr>

@@ -22,15 +22,6 @@
                                 <div class="pt-5 flex gap-3">
                                     <a href="{{ route('student.details', ['id' => $child->id]) }}"
                                         class="btn upt">Butiran</a>
-
-                                    <form class="w-fit" method="POST"
-                                        action="{{ route('student.delete', ['id' => $child->id]) }}">
-
-                                        @csrf
-                                        @method('DELETE')
-                                        <input class="btn dlt w-full text-center" type="submit" value="Padam">
-                                    </form>
-
                                 </div>
                             </div>
                         @endforeach
