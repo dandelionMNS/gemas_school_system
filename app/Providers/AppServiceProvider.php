@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\FeeType;
 use App\Models\Student;
 use App\Models\Transaction;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\User;

@@ -64,9 +64,6 @@
                             <h4> {{ __('Rekod Transaksi') }} </h4>
                         </x-nav-link>
 
-                        <x-nav-link :href="route('student.index')" :active="request()->routeIs('student.index')">
-                            <h4> {{ __('Senarai Pelajar') }} </h4>
-                        </x-nav-link>
                     @endif
 
                     @if (Auth::check() && Auth::user()->type === 'teacher')

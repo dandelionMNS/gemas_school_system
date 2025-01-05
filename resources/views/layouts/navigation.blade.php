@@ -32,10 +32,6 @@
                         <x-nav-link :href="route('record.index')" :active="request()->is('records')">
                             {{ __('Rekod Transaksi') }}
                         </x-nav-link>
-
-                        <x-nav-link :href="route('student.index')" :active="request()->routeIs('student.index')">
-                            {{ __('Senarai Pelajar ') }}
-                        </x-nav-link>
                     @endif
                     @if (Auth::check() && Auth::user()->type === 'teacher')
                         <x-nav-link :href="route('student.class_teach')" :active="request()->routeIs('student.class_teach')">
