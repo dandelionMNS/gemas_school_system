@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Classes;
 use App\Models\FeeType;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -19,19 +20,38 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+
+        $students = Student::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->with('class')
+            ->get();
+
+        $teachers = Teacher::all();
+        $classes = Classes::all();
+
+        return view("pages.stud_list", compact('students', 'teachers', 'classes', 'search'));
+    }
+
+    public function class_teach(Request $request)
+    {
+        $search = $request->input('search');
     
         $students = Student::query()
             ->when($search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%");
             })
-            ->with('class') 
+            ->with('class')
             ->get();
     
-        $teachers = Teacher::all();
-        $classes = Classes::all();
+        $teacher = Teacher::where('user_id', Auth::id())->first();
+        $class_teaches  = Classes::where('teacher_id', $teacher->id)->get();
+        $feetypes = FeeType::all();
     
-        return view("pages.stud_list", compact('students', 'teachers', 'classes', 'search'));
+        return view("pages.teached_class", compact('students', 'teacher', 'feetypes', 'class_teaches', 'search'));
     }
+
 
     public function addPage()
     {

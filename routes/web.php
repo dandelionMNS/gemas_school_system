@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
 //Student Related Route
 {
     Route::get('/student', [StudentController::class, 'index'])->middleware(['auth', 'verified'])->name('student.index');
+    Route::get('/class_teached/student', [StudentController::class, 'class_teach'])->middleware(['auth', 'verified'])->name('student.class_teach');
 
     Route::get('/student/add', [StudentController::class, 'addPage'])->middleware(['auth', 'verified'])->name('student.add');
     Route::post('/student/create', [StudentController::class, 'create'])->middleware(['auth', 'verified'])->name('student.create');
