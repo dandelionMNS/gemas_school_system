@@ -100,6 +100,17 @@
                                                 <td class="p-3 flex flex-nowrap justify-center gap-3">
                                                     <a href="{{ route('student.details', ['id' => $student->id]) }}"
                                                         class="btn upt">Butiran</a>
+
+                                                    <form class="w-fit" method="POST"
+                                                        action="{{ route('student.delete', ['id' => $student->id]) }}">
+
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input class="btn dlt w-full text-center" type="submit"
+                                                            value="Padam">
+                                                    </form>
+
+
                                                 </td>
                                                 <td>{{ $status }}</td>
                                             </tr>
@@ -111,12 +122,7 @@
 
                         </div>
 
-                        <div class="round-btn">
-                            <img src="{{ asset('/icons/ic_plus.svg') }}">
-                            <span>
-                                <a href="{{ route('student.add') }}" class="active opacity-0">Add New Student</a>
-                            </span>
-                        </div>
+                       
                     </div>
                 @endforeach
             @elseif (Auth::check() && Auth::user()->type === 'admin')
@@ -219,7 +225,7 @@
                     <div class="col-span-2 flex flex-col items-center border border-gray-400 rounded-xl p-3">
 
                         <div class="flex w-full items-center border-b p-3">
-                     
+
                             <div class="flex-col flex w-full items-center">
                                 <h4 class="text-nowrap">Transaksi Berjaya:</h4>
                                 <h3 class="text-3xl">
