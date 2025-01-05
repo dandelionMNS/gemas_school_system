@@ -18,7 +18,7 @@
             @foreach ($class_teaches as $class_teach)
                 <div class="main text-gray-900 sm:px--6 lg:px--8 relative">
 
-                    <h2 class="text-nowrap pb-5">KELAS: {{ strtoupper($class_teach->name) }}</h2>
+                    <h2 class="text-nowrap pb-5">KELAS: {{$class_teach->grade_lvl}} {{ strtoupper($class_teach->name) }}</h2>
                     <div class="flex w-full gap-3">
 
                         <table class="w-full">
