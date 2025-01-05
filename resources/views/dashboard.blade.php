@@ -222,7 +222,7 @@
                                             <p class="px-3 flex text-nowrap w-1/2">
                                                 RM
                                                 {{ number_format(
-                                                    $transactions->where('feetype_id', $feetype->id)->count() * $feetype->amount * $studentss->count(),
+                                                    $feetype->amount * $studentss->count(),
                                                     2
                                                 ) }} 
                                             </p>
