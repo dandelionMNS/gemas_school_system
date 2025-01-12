@@ -20,6 +20,7 @@ class FeeTypeController extends Controller
         $feetype->name = $request->input("name");
         $feetype->amount = $request->input("amount");
         $feetype->due = $request->input("due");
+        $feetype->grade_lvl = $request->input("grade_lvl");
         $feetype->save();
 
         return redirect()->back()->with("success", "");
@@ -31,6 +32,7 @@ class FeeTypeController extends Controller
         $feetype->name = $request->input('name');
         $feetype->amount = $request->input("amount");
         $feetype->due = $request->input("due");
+        $feetype->grade_lvl = $request->input("grade_lvl");
         $feetype->save();
 
         return redirect()->back()->with("success", "");

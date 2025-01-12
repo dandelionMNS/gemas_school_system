@@ -52,10 +52,15 @@
                                                     'student_id',
                                                     $student->id,
                                                 )
-                                                    ->where('status', 'Belum Diproses')
+                                                    ->where('status', 'Sedang Diproses')
                                                     ->count();
 
-                                                $total_fee_types = $feetypes->count();
+                                                    $feetypes_filtered = $feetypes->filter(function ($feetype) use ($class_teach) {
+                                                    return $feetype->grade_lvl == $class_teach->grade_lvl ||
+                                                        $feetype->grade_lvl == 'all';
+                                                });
+
+                                                $total_fee_types = $feetypes_filtered->count();
 
                                                 // Determine the status
                                                 if ($pending_transaction_count > 0) {

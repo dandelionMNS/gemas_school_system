@@ -18,7 +18,7 @@ class MailController extends Controller
     public function sendReminders(Request $request)
     {
         $parent_id = $request->parent_id;
-        $feetypes = Feetype::all();
+       
         $students = Student::where('parent_id', $parent_id)->get();
         $parent = Parentt::findOrFail($parent_id);
 
@@ -26,7 +26,7 @@ class MailController extends Controller
 
         foreach ($students as $student) {
             $unpaidFees[$student->id] = [];
-
+            $feetypes = Feetype::where('grade_lvl', $student->class->grade_lvl)->orWhere('grade_lvl', 'all')->get();
             foreach ($feetypes as $feetype) {
                 $transaction = Transaction::where('student_id', $student->id)
                     ->where('feetype_id', $feetype->id)

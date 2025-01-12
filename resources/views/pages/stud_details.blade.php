@@ -133,6 +133,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $feetypes = $feetypes->filter(function ($feetype) use ($stud_details) {
+                                            return $feetype->grade_lvl == $stud_details->class->grade_lvl ||
+                                                $feetype->grade_lvl == 'all';
+                                        });
+                                    @endphp
                                     @foreach ($feetypes as $index => $feetype)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
@@ -152,14 +158,18 @@
                                                     );
                                                     $pendingTransaction = $matchingTransactions->firstWhere(
                                                         'status',
-                                                        'Pending',
+                                                        'Sedang Diproses',
                                                     );
                                                 @endphp
 
                                                 @if ($approvedTransaction)
-                                                    <button class="btn upt">{{ $approvedTransaction->status }}</button>
+                                                    {{ $approvedTransaction->status }}
                                                 @elseif ($pendingTransaction)
-                                                    <span>Perlu Disemak</span>
+                                                    @if (Auth::user()->type == 'teacher')
+                                                        <span>Perlu Disemak</span>
+                                                    @else
+                                                        <span>{{ $pendingTransaction->status }}</span>
+                                                    @endif
                                                 @else
                                                     @if (Auth::user()->type == 'parent')
                                                         <a class="btn crt-sec"
@@ -243,7 +253,7 @@
 
                                         <td class="p-3 flex gap-3">
 
-                                            @if ($transaction->status == 'Belum Diproses' && Auth::user()->type == 'parent')
+                                            @if ($transaction->status == 'Sedang Diproses' && Auth::user()->type == 'parent')
                                                 <form class="w-fit" method="POST"
                                                     action="{{ route('transaction.delete', ['transaction_id' => $transaction->id]) }}">
 
@@ -251,7 +261,7 @@
                                                     @method('DELETE')
                                                     <input class="btn dlt w-full text-center" type="submit" value="Padam">
                                                 </form>
-                                            @elseif ($transaction->status == 'Belum Diproses' && Auth::user()->type == 'teacher')
+                                            @elseif ($transaction->status == 'Sedang Diproses' && Auth::user()->type == 'teacher')
                                                 <form class="w-fit" method="POST"
                                                     action="{{ route('transaction.approve', ['transaction_id' => $transaction->id]) }}">
                                                     @csrf
@@ -271,16 +281,11 @@
                                                 <p>Sudah Disemak</p>
                                             @endif
 
-
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-
-
-
                     </div>
                 @endisset
 

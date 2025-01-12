@@ -42,10 +42,10 @@
                             <h4 class="text-nowrap">Jumlah Pelajar:<br>
                                 <h2 class="text-2xl"> {{ $class_teach->grade_lvl }} {{ $class_teach->name }}</h2>
                             </h4>
-                            
+
                             <h3 class="text-3xl">
                                 <strong>
-                                    {{ $students->where('class_id', $class_teach->id )   ->count() }}
+                                    {{ $students->where('class_id', $class_teach->id)->count() }}
                                 </strong>
                             </h3>
                         </div>
@@ -130,7 +130,7 @@
                                                             return $transaction->status === 'Diluluskan';
                                                         })
                                                         ->count();
-                                                    $totalStudents = $studentss->count();
+                                                    $totalStudents = $studentss->where('grade_lvl',$feetype->grade_lvl)->count();
 
                                                     $status =
                                                         $completedTransactions === $totalStudents
@@ -157,7 +157,7 @@
                                 <h4 class="text-nowrap">Transaksi Berjaya:</h4>
                                 <h3 class="text-3xl">
                                     <strong>
-                                        {{ $transactions->where('status','Diluluskan')->count() }}
+                                        {{ $transactions->where('status', 'Diluluskan')->count() }}
                                     </strong>
                                 </h3>
                             </div>
@@ -166,7 +166,7 @@
                                 <h4 class="text-nowrap">Transaksi Perlu Diproses:</h4>
                                 <h3 class="text-3xl">
                                     <strong>
-                                        {{ $transactions->where('status','Belum Diproses')->count() }}
+                                        {{ $transactions->where('status', 'Sedang Diproses')->count() }}
                                     </strong>
                                 </h3>
                             </div>
@@ -175,7 +175,7 @@
                                 <h4 class="text-nowrap">Transaksi Gagal:</h4>
                                 <h3 class="text-3xl">
                                     <strong>
-                                        {{ $transactions->where('status','Ditolak')->count() }}
+                                        {{ $transactions->where('status', 'Ditolak')->count() }}
                                     </strong>
                                 </h3>
                             </div>
@@ -199,7 +199,7 @@
                                         class="flex flex-col items-center justify-center w-full odd:border-r lg:border gap-3 p-3 border-gray-400">
                                         <div class="flex w-full items-center justify-center">
                                             <p class="p-3 border-r border-gray-400 w-1/2">
-                                                {{ $feetype->name }}  
+                                                {{ $feetype->name }}
                                             </p>
                                             <p class="p-3 flex text-nowrap w-1/2">
                                                 RM
@@ -213,18 +213,15 @@
                                             </p>
                                         </div>
 
-                                        
+
 
                                         <div class="w-full flex p-3 pb-0 border-t border-gray-400">
                                             <p class=" border-r border-gray-400 w-1/2 font-semibold">
-                                                Jumlah Bayaran 
+                                                Jumlah Bayaran
                                             </p>
                                             <p class="px-3 flex text-nowrap w-1/2">
                                                 RM
-                                                {{ number_format(
-                                                    $feetype->amount * $studentss->count(),
-                                                    2
-                                                ) }} 
+                                                {{ number_format($feetype->amount * $studentss->where('class.grade_lvl',$feetype->grade_lvl)->count(), 2) }}
                                             </p>
                                         </div>
 

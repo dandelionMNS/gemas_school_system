@@ -15,6 +15,7 @@ class Feetype extends Model
         "id",
         "name",
         "amount",
+        "grade_lvl",
         "due"
     ];
 }

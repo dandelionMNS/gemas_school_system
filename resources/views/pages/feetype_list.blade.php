@@ -10,15 +10,15 @@
             <div class="main text-gray-900 sm:px--6 lg:px--8">
                 <h2 class="text-nowrap pb-5">Senarai Kelas</h2>
 
-                <form class="add-form flex flex-col w-min gap-3 p-3" method="POST" action="{{ route('feetype.create') }}">
+                <form class="add-form flex flex-col gap-3 p-3 w-full" method="POST" action="{{ route('feetype.create') }}">
                     @csrf
                     <h3 class="text-nowrap flex items-center">Tambah Kelas:</h3>
 
-                    <div class="flex gap-8">
+                    <div class="grid grid-cols-3 gap-3 w-full">
 
                         <div class="flex gap-2">
                             <label for="name">Nama Yuran:</label>
-                            <input type="text" id="name" name="name" required>
+                            <input class="w-full" type="text" id="name" name="name" required>
                         </div>
 
                         <div class="flex gap-2">
@@ -28,10 +28,27 @@
 
                         <div class="flex gap-2">
                             <label for="due">Tarikh Akhir Bayaran:</label>
-                            <input type="date" id="due" name="due" required>
+                            <input class="w-full" type="date" id="due" name="due" required>
+                        </div>
+                        <div class="flex gap-2">
+                            <label for="grade_lvl">Tarikh Akhir Bayaran:</label>
+                            <select class="w-full" id="grade_lvl" name="grade_lvl">
+                                <option value="all">
+                                    all
+                                </option>
+                                @for ($i = 1; $i <= 6; $i++)
+                                    <option value="{{ $i }}">
+                                        {{ $i }}
+                                    </option>
+                                @endfor
+                            </select>
                         </div>
 
-                        <input type="submit" value="Simpan" class="btn crt">
+                        <div></div>
+
+                        <div class="flex justify-end">
+                            <input type="submit" value="Simpan" class="btn crt">
+                        </div>
                     </div>
                 </form>
 
@@ -55,22 +72,37 @@
                                 <tr>
                                     <td class="w-0">{{ $counter }}</td>
                                     <td class="w-28">
-                                        <form method="POST" action="{{ route('feetype.update', ['id' => $feetype->id]) }}">
+                                        <form method="POST"
+                                            action="{{ route('feetype.update', ['id' => $feetype->id]) }}">
                                             @csrf
                                             @method('PUT')
                                             <input name="name" value="{{ $feetype->name }}" class="bg-none border-0"
-                                            required>
-                                           
+                                                required>
+
                                     </td>
                                     <td>
-                                        <input name="amount" type="number" value="{{ number_format($feetype->amount, 2)  }}" class="bg-none border-0 rounded-lg"
-                                            required>
+                                        <input name="amount" type="number"
+                                            value="{{ number_format($feetype->amount, 2) }}"
+                                            class="bg-none border-0 rounded-lg" required>
                                     </td>
 
                                     <td>
-                                        <input name="due" type="date" value="{{ $feetype->due }}" class="bg-none border-0 rounded-lg"
-                                        required>
-                                    </td> 
+                                        <input name="due" type="date" value="{{ $feetype->due }}"
+                                            class="bg-none border-0 rounded-lg" required>
+                                    </td>
+
+                                    <td>
+                                        <select class="w-full" id="grade_lvl" name="grade_lvl">
+                                            <option value="all">
+                                                all
+                                            </option>
+                                            @for ($i = 1; $i <= 6; $i++)
+                                                <option value="{{ $i }}" {{$feetype->grade_lvl == $i? 'selected': ''}}>
+                                                    {{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </td>
 
                                     <td class="p-3 flex gap-3 justify-center">
                                         <input type="submit" value="Kemas Kini" class="btn upt w-full text-center">

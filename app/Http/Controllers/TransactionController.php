@@ -33,7 +33,7 @@ class TransactionController extends Controller
         $transaction->student_id = $request->input('student_id');
         $transaction->feetype_id = $request->input('feetype_id');
         $transaction->ref_url = "pending...";
-        $transaction->status = "Belum Diproses";
+        $transaction->status = "Sedang Diproses";
         $transaction->save();
 
         if ($request->hasFile('receipt')) {

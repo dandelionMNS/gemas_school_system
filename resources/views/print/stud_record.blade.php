@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
- <title>SAR GEMAS</title>
+    <title>SAR GEMAS</title>
 
 
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -123,6 +123,12 @@
                             <td>Status</td>
                         </tr>
                         <tbody>
+                            @php
+                                $feetypes = $feetypes->filter(function ($feetype) use ($student) {
+                                    return $feetype->grade_lvl == $student->class->grade_lvl ||
+                                        $feetype->grade_lvl == 'all';
+                                });
+                            @endphp
                             @foreach ($feetypes as $index => $feetype)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
@@ -144,21 +150,26 @@
                                         @endphp
 
                                         @if ($approvedTransaction)
-                                           {{ $approvedTransaction->status }}
+                                            {{ $approvedTransaction->status }}
                                         @elseif ($pendingTransaction)
                                             <span>Perlu Disemak</span>
                                         @else
-                                                <span>Belum Bayar</span>
+                                            <span>Belum Bayar</span>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                             <tr class="font-bold">
                                 <td colspan="2">Jumlah Sudah Dibayar</td>
-                                <td colspan="2">RM {{ number_format($feetypes->filter(function($feetype) use ($transactions) {
-                                    return $transactions->where('feetype_id', $feetype->id)->contains('status', 'Diluluskan');
-                                })->sum('amount'), 2) }}</td>
-                                </tr>
+                                <td colspan="2">RM
+                                    {{ number_format(
+                                        $feetypes->filter(function ($feetype) use ($transactions) {
+                                                return $transactions->where('feetype_id', $feetype->id)->contains('status', 'Diluluskan');
+                                            })->sum('amount'),
+                                        2,
+                                    ) }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 

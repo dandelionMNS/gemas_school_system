@@ -48,17 +48,16 @@
                                         <td>
                                             @if ($user->type == 'parent')
                                                 @php
-                                                    $parent = \App\Models\Parentt::where(
-                                                        'user_id',
-                                                        $user->id,
-                                                    )->first();
+                                                    $parent = \App\Models\Parentt::where('user_id', $user->id)->first();
                                                 @endphp
-                                                <form method="POST"
-                                                    action="{{ route('reminder.mail', ['parent_id' => $parent->id]) }}">
-                                                    @csrf
+                                                @if ($parent)
+                                                    <form method="POST"
+                                                        action="{{ route('reminder.mail', ['parent_id' => $parent->id]) }}">
+                                                        @csrf
 
-                                                    <x-primary-button class="text-nowrap" type='submit'>Hantar Email</x-primary-button>
-                                                </form>
+                                                        <x-primary-button class="text-nowrap" type='submit'>Hantar Email</x-primary-button>
+                                                    </form>
+                                                @endif
                                             @endif
                                         </td>
 
