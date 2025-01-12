@@ -77,15 +77,14 @@
                                                 <a href="{{ route('student.details', ['id' => $student->id]) }}"
                                                     class="btn upt">Butiran</a>
 
-                                                <form class="w-fit" method="POST"
+                                                {{-- <form class="w-fit" method="POST"
                                                     action="{{ route('student.delete', ['id' => $student->id]) }}">
 
                                                     @csrf
                                                     @method('DELETE')
                                                     <input class="btn dlt w-full text-center" type="submit"
                                                         value="Padam">
-                                                </form>
-
+                                                </form> --}}
 
                                             </td>
                                             <td class="text-nowrap">{{ $status }}</td>
